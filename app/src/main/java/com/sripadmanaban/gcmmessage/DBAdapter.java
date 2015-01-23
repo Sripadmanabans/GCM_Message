@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
+ * Database adapter in singleton pattern
  * Created by Sripadmanaban on 1/22/2015.
  */
 public class DBAdapter
 {
-    private static final String KEY_ROW_ID = "_id";
     private static final String KEY_FIRST_NAME = "FirstName";
     private static final String KEY_LAST_NAME = "LastName";
     private static final String KEY_EMAIL = "Email";
@@ -21,8 +21,13 @@ public class DBAdapter
     private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_CREATE_TABLE =
-            "CREATE TABLE contacts(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "FirstName TEXT NOT NULL, LastName TEXT NOT NULL, Email TEXT NOT NULL);";
+            "CREATE TABLE contacts(FirstName TEXT NOT NULL, LastName TEXT NOT NULL, " +
+                    "Email TEXT PRIMARY KEY);";
+
+    private static final String DATABASE_TRUNCATE =
+            "DELETE FROM " + DATABASE_TABLE + ";";
+
+    private static final String VACUUM = "VACUUM;";
 
 
     private DatabaseHelper DBHelper;
@@ -87,6 +92,10 @@ public class DBAdapter
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
-
+    public void truncateTable()
+    {
+        db.execSQL(DATABASE_TRUNCATE);
+        db.execSQL(VACUUM);
+    }
 
 }

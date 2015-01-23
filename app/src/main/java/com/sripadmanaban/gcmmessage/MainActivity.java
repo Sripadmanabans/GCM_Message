@@ -210,6 +210,7 @@ public class MainActivity extends ActionBarActivity
                 Log.d(TAG, jsonObject.toString());
 
                 dbAdapter.open();
+                dbAdapter.truncateTable();
                 JsonArray jsonArray = jsonObject.getJsonArray(PROFILE);
 
                 for(JsonValue value : jsonArray)
