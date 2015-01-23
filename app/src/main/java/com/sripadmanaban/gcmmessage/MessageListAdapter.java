@@ -59,10 +59,17 @@ public class MessageListAdapter extends BaseAdapter
         return status;
     }
 
+    private static class ViewHolder
+    {
+        TextView textView;
+    }
+
     @SuppressWarnings("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        ViewHolder viewHolder;
+
         View rowView = convertView;
 
         int type = getItemViewType(position);
@@ -79,11 +86,19 @@ public class MessageListAdapter extends BaseAdapter
             {
                 rowView = inflater.inflate(R.layout.list_sender, parent, false);
             }
+
+            viewHolder = new ViewHolder();
+
+            viewHolder.textView = (TextView) rowView.findViewById(R.id.list_message);
+
+            rowView.setTag(viewHolder);
+        }
+        else
+        {
+            viewHolder = (ViewHolder) rowView.getTag();
         }
 
-        TextView textView = (TextView) rowView.findViewById(R.id.list_message);
-
-        textView.setText(profileMessageList.get(position).getMessage());
+        viewHolder.textView.setText(profileMessageList.get(position).getMessage());
 
         return rowView;
     }
