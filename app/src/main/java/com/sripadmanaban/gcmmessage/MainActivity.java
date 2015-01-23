@@ -186,7 +186,7 @@ public class MainActivity extends ActionBarActivity
         private String urlString = "http://1-dot-t-bond-830.appspot.com/message/list";
         private HttpURLConnection connection;
         private ArrayList<Profile> profileList = new ArrayList<>();
-        private DBAdapter adapter = DBAdapter.getInstance(context);
+        private DBAdapter dbAdapter = DBAdapter.getInstance(context);
 
         @Override
         protected ArrayList<Profile> doInBackground(Void... params)
@@ -209,7 +209,7 @@ public class MainActivity extends ActionBarActivity
 
                 Log.d(TAG, jsonObject.toString());
 
-                adapter.open();
+                dbAdapter.open();
                 JsonArray jsonArray = jsonObject.getJsonArray(PROFILE);
 
                 for(JsonValue value : jsonArray)
@@ -222,7 +222,7 @@ public class MainActivity extends ActionBarActivity
 
                     Log.d(TAG, profile.toString());
 
-                    adapter.insertContact(profile.getFirstName(), profile.getLastName(), profile.getEmail());
+                    dbAdapter.insertContact(profile.getFirstName(), profile.getLastName(), profile.getEmail());
 
                     profileList.add(profile);
                 }
@@ -238,7 +238,7 @@ public class MainActivity extends ActionBarActivity
                 {
                     connection.disconnect();
                 }
-                adapter.close();
+                dbAdapter.close();
             }
             return profileList;
         }
