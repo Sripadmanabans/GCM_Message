@@ -2,6 +2,7 @@ package com.sripadmanaban.gcmmessage;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +37,8 @@ public class MainActivity extends ActionBarActivity
     private ArrayList<String> messagesList;
     private ArrayList<Profile> profilesList;
 
+    private Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,6 +52,13 @@ public class MainActivity extends ActionBarActivity
 
         profilesList = new ArrayList<>();
 
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
         AsyncListTask listTask = new AsyncListTask();
 
         try
@@ -60,7 +70,6 @@ public class MainActivity extends ActionBarActivity
             e.printStackTrace();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -177,7 +186,7 @@ public class MainActivity extends ActionBarActivity
         private String urlString = "http://1-dot-t-bond-830.appspot.com/message/list";
         private HttpURLConnection connection;
         private ArrayList<Profile> profileList = new ArrayList<>();
-        private DBAdapter adapter = DBAdapter.getInstance(getParent());
+        private DBAdapter adapter = DBAdapter.getInstance(context);
 
         @Override
         protected ArrayList<Profile> doInBackground(Void... params)
